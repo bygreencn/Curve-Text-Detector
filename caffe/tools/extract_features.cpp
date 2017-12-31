@@ -10,6 +10,7 @@
 #include "caffe/net.hpp"
 #include "caffe/proto/caffe.pb.h"
 #include "caffe/util/db.hpp"
+#include "caffe/util/format.hpp"
 #include "caffe/util/io.hpp"
 
 using caffe::Blob;
@@ -41,7 +42,7 @@ int feature_extraction_pipeline(int argc, char** argv) {
     "  save_feature_dataset_name1[,name2,...]  num_mini_batches  db_type"
     "  [CPU/GPU] [DEVICE_ID=0]\n"
     "Note: you can extract multiple features in one pass by specifying"
-    " multiple feature blob names and dataset names seperated by ','."
+    " multiple feature blob names and dataset names separated by ','."
     " The names cannot contain white space characters and the number of blobs"
     " and datasets must be equal.";
     return 1;
@@ -51,7 +52,7 @@ int feature_extraction_pipeline(int argc, char** argv) {
   arg_pos = num_required_args;
   if (argc > arg_pos && strcmp(argv[arg_pos], "GPU") == 0) {
     LOG(ERROR)<< "Using GPU";
-    uint device_id = 0;
+    int device_id = 0;
     if (argc > arg_pos + 1) {
       device_id = atoi(argv[arg_pos + 1]);
       CHECK_GE(device_id, 0);
@@ -130,7 +131,7 @@ int feature_extraction_pipeline(int argc, char** argv) {
     txns.push_back(txn);
   }
 
-  LOG(ERROR)<< "Extacting Features";
+  LOG(ERROR)<< "Extracting Features";
 
   Datum datum;
   const int kMaxKeyStrLength = 100;

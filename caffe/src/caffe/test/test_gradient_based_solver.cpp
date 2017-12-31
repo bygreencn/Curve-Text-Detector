@@ -232,8 +232,9 @@ class GradientBasedSolverTest : public MultiDeviceTest<TypeParam> {
 
     // Run a forward pass, and manually compute the update values from the
     // result.
+	Dtype loss;
     Net<Dtype>& net = *this->solver_->net();
-    net.Forward();
+    net.Forward(&loss);
     ASSERT_TRUE(net.has_blob("data"));
     const Blob<Dtype>& data = *net.blob_by_name("data");
     ASSERT_TRUE(net.has_blob("targets"));
